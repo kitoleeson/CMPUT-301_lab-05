@@ -45,7 +45,7 @@ public class MainActivity extends AppCompatActivity implements CityDialogFragmen
         db = FirebaseFirestore.getInstance();
         citiesRef = db.collection("Cities");
 
-        //
+        // matches current list to database on database change
         citiesRef.addSnapshotListener((value, error) -> {
             if (error != null) Log.e("Firestore", error.toString());
             if (value != null && !value.isEmpty()) {
@@ -95,11 +95,24 @@ public class MainActivity extends AppCompatActivity implements CityDialogFragmen
 
     @Override
     public void addCity(City city){
+        // add city to app
         cityArrayList.add(city);
         cityArrayAdapter.notifyDataSetChanged();
 
+        // add city to database
         DocumentReference docRef = citiesRef.document(city.getName());
         docRef.set(city);
+    }
+
+    @Override
+    public void deleteCity(City city){
+        // delete city from app
+        cityArrayList.remove(city);
+        cityArrayAdapter.notifyDataSetChanged();
+
+        // delete city from database
+        DocumentReference docRef = citiesRef.document(city.getName());
+        docRef.delete();
     }
 
     public void addDummyData(){
