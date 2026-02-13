@@ -71,4 +71,32 @@ public class City implements Serializable, Comparable<City> {
     public int compareTo(City city){
         return this.city.compareTo(city.getCityName());
     }
+
+    /**
+     * Taken from ChatGPT: "how can i test if two cities are equal <inserted City code>"
+     * Indicates whether a specified object is equal to the city
+     * @param obj
+     *  The object
+     * @return
+     *  Boolean, true if obj is equal to the city
+     */
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) return true;
+        if (obj == null || getClass() != obj.getClass()) return false;
+        City other = (City) obj;
+        return city.equals(other.city) &&
+                province.equals(other.province);
+    }
+
+    /**
+     * Taken from ChatGPT: "how can i test if two cities are equal <inserted City code>"
+     * Returns a hash code value for the city
+     * @return
+     *  The hash code for the city
+     */
+    @Override
+    public int hashCode() {
+        return city.hashCode() + province.hashCode();
+    }
 }
